@@ -1,0 +1,595 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+
+	<id>emanuele:tabbed_smileys</id>
+	<version>0.3.99</version>
+
+	<file name="$sourcedir/Load.php">
+		<operation><!-- 1 -->
+			<search position="after"><![CDATA[
+	// Integration is cool.]]></search>
+			<add><![CDATA[
+	if(isset($modSettings['tabbed_smileys']) && !is_array($modSettings['tabbed_smileys'])){
+		$modSettings['tabbed_smileys'] = unserialize($modSettings['tabbed_smileys']);
+	}
+]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/ManagePosts.php">
+		<operation><!-- 1 -->
+			<search position="before"><![CDATA[
+			array('check', 'disable_wysiwyg'),]]></search>
+			<add><![CDATA[
+			array('select', 'enable_tabbed_interface', array(0 => $txt['tabbed_interface_off'], 1 => $txt['tabbed_interface_smiley'], 2 => $txt['tabbed_interface_fullon'])),]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/ManageSmileys.php">
+		<operation><!-- 1 -->
+			<search position="before"><![CDATA[
+			array('check', 'smiley_enable', 'subtext' => $txt['smileys_enable_note']),]]></search>
+			<add><![CDATA[
+			array(!empty($modSettings['smiley_enable']) ? 'check' : '', 'hide_more_smiley'),]]></add>
+		</operation>
+		<operation><!-- 2 -->
+			<search position="replace"><![CDATA[
+				if (isset($displayTypes[$_POST['smiley_action']]))
+					$smcFunc['db_query']('', '
+						UPDATE {db_prefix}smileys
+						SET hidden = {int:display_type}
+						WHERE id_smiley IN ({array_int:checked_smileys})',
+						array(
+							'checked_smileys' => $_POST['checked_smileys'],
+							'display_type' => $displayTypes[$_POST['smiley_action']],
+						)
+					);
+			}
+]]></search>
+			<add><![CDATA[
+				if (isset($displayTypes[$_POST['smiley_action']])){
+					$smcFunc['db_query']('', '
+						UPDATE {db_prefix}smileys
+						SET hidden = {int:display_type}
+						WHERE id_smiley IN ({array_int:checked_smileys})',
+						array(
+							'checked_smileys' => $_POST['checked_smileys'],
+							'display_type' => $displayTypes[$_POST['smiley_action']],
+						)
+					);
+				} elseif(strpos($_POST['smiley_action'], 'addtab_')!==false) {
+					$id = explode('_', $_POST['smiley_action']);
+					$smcFunc['db_query']('', '
+						UPDATE {db_prefix}smileys
+						SET hidden = {int:display_type}
+						WHERE id_smiley IN ({array_int:checked_smileys})',
+						array(
+							'checked_smileys' => $_POST['checked_smileys'],
+							'display_type' => ($id[1]==0 ? 0 : 2),
+						)
+					);
+					$smcFunc['db_query']('', '
+						UPDATE {db_prefix}smileys
+						SET smiley_row = {int:row_number}
+						WHERE id_smiley IN ({array_int:checked_smileys})',
+						array(
+							'checked_smileys' => $_POST['checked_smileys'],
+							'row_number' => ($id[1]==0 ? 0 : ($id[1]-1)),
+						)
+					);
+				}
+			}
+]]></add>
+		</operation>
+		<operation><!-- 3 -->
+			<search position="replace"><![CDATA[
+							global $txt]]></search>
+			<add><![CDATA[
+							global $txt, $modSettings]]></add>
+		</operation>
+		<operation><!-- 4 -->
+			<search position="replace"><![CDATA[
+								return $txt[\'smileys_location_popup\'];]]></search>
+			<add><![CDATA[
+								return $txt[\'smileys_location_popup\'] . \' (\' . $txt[\'tabbed_smileys_tab\']. \': \' . (!empty($modSettings[\'tabbed_smileys\'][\'popup\'][$rowData[\'smiley_row\']+1]) ? $modSettings[\'tabbed_smileys\'][\'popup\'][$rowData[\'smiley_row\']+1] : ($txt[\'additional_smileys\'] . \' \' . $rowData[\'smiley_row\']+1)) . \')\';]]></add>
+		</operation>
+		<operation><!-- 5 -->
+			<search position="before"><![CDATA[
+							<option value="delete">' . $txt['smileys_remove'] . '</option>]]></search>
+			<add><![CDATA['
+							. tabbed_smileys_add_options() . ']]></add>
+		</operation>
+		<operation><!-- 6 -->
+			<search position="before"><![CDATA[
+function EditSmileyOrder()
+{
+	global $modSettings, $context, $settings, $txt, $boarddir, $smcFunc;
+]]></search>
+			<add><![CDATA[
+	//A form was submitted
+	if (isset($_POST['sc']))
+	{
+		checkSession();
+
+		$locations[] = 'postform';
+		$locations[] = 'popup';
+		foreach($locations as $location){
+			if(isset($_POST[$location])){
+				if(is_array($_POST[$location])){
+					$temp[$location]=array();
+					foreach($_POST[$location] as $id => $value){
+						$temp[$location][$id] = $smcFunc['htmlspecialchars'](strip_tags($value), ENT_QUOTES);
+					}
+				} else {
+					$temp[$location] = $smcFunc['htmlspecialchars'](strip_tags($_POST[$location]), ENT_QUOTES);
+				}
+			}
+		}
+		updateSettings(array('tabbed_smileys' => serialize($temp)));
+		updateSettings(array('tabbed_smilyes_style' => $smcFunc['htmlspecialchars'](strip_tags($_POST['style_edit']), ENT_QUOTES)));
+		$modSettings['tabbed_smileys'] = unserialize($modSettings['tabbed_smileys']);
+		unset($temp);
+	}
+
+]]></add>
+		</operation>
+		<operation><!-- 7 -->
+		<search position="end"><![CDATA[?>]]></search>
+			<add><![CDATA[
+
+function tabbed_smileys_add_options(){
+	global $modSettings, $context, $txt, $smcFunc;
+	$ret = '
+						<option value="-1">--------------</option>
+						<option value="addtab_0">' . (!empty($modSettings['tabbed_smileys']['postform']) ? $modSettings['tabbed_smileys']['postform'] : $txt['basic_smileys']) . '</option>';
+
+	$request = $smcFunc['db_query']('', '
+		SELECT MAX(smiley_row) as max
+		FROM {db_prefix}smileys
+		WHERE hidden = 2',
+		array(
+		)
+	);
+	$res = $smcFunc['db_fetch_assoc']($request);
+	$rows = $res['max'] + 1;
+	for($i=1;$i<=$rows;$i++){
+		$ret .= '
+							<option value="addtab_' . $i . '">' . (!empty($modSettings['tabbed_smileys']['popup'][$i]) ? $modSettings['tabbed_smileys']['popup'][$i] : ($txt['additional_smileys'] . ' '. $i)) . '</option>';
+	}
+	return $ret;
+}
+]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Subs.php">
+		<operation><!-- 1 -->
+			<search position="before"><![CDATA[
+	// This is done to allow theme authors to customize it as they want.
+]]></search>
+			<add><![CDATA[
+	$context['html_headers'] .= '
+	<style type="text/css">
+		' . (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : 'ul#tabs, ul#full_tabbed_editor {
+			overflow:auto;
+			list-style-type: none;
+			margin: 0;
+			padding: 0.1em 0;
+		}
+		ul#tabs li, ul#full_tabbed_editor li {
+			float:left;
+			margin:0.3em 0.2em;
+		}
+		ul#tabs li a, ul#full_tabbed_editor li a {
+			color: #000;
+			border: 1px solid #ADADAD;
+			border-bottom: none;
+			padding: 0.3em;
+			text-decoration: none;
+		}
+		div.tabContent {
+			width:100%;
+			overflow:auto;
+			height: 100px;
+		}
+		div.hide {
+			display: none;
+		}') . '
+	</style>';
+]]></add>
+		</operation>
+	</file>
+
+	<file name="$themedir/GenericControls.template.php">
+		<operation><!-- 1 -->
+			<search position="replace"><![CDATA[
+					foreach ($smileyRow['smileys'] as $smiley)
+						echo '
+								{
+									sCode: ', JavaScriptEscape($smiley['code']), ',
+									sSrc: ', JavaScriptEscape($settings['smileys_url'] . '/' . $smiley['filename']), ',
+									sDescription: ', JavaScriptEscape($smiley['description']), '
+								}', empty($smiley['isLast']) ? ',' : '';
+]]></search>
+			<add><![CDATA[
+					foreach ($smileyRow['smileys'] as $smiley){
+						echo '
+								{
+									sCode: ', JavaScriptEscape($smiley['code']), ',';
+						if(!empty($modSettings['enable_tabbed_interface'])){
+							echo '
+									sSrc: \'\',
+									sSrc_hidden: ', JavaScriptEscape($settings['smileys_url'] . '/' . $smiley['filename']), ',';
+						} else {
+							echo '
+									sSrc: ', JavaScriptEscape($settings['smileys_url'] . '/' . $smiley['filename']), ',';
+						}
+						echo '
+									sDescription: ', JavaScriptEscape($smiley['description']), '
+								}', empty($smiley['isLast']) ? ',' : '';
+					}
+]]></add>
+		</operation>
+		<operation><!-- 2 -->
+			<search position="before"><![CDATA[
+							</body>
+						</html>'), '
+				});';
+]]></search>
+			<add><![CDATA[
+			if (!empty($modSettings['enable_tabbed_interface'])){
+				echo '
+				var box = document.getElementById(\'' . $smileyContainer . '\');
+				var postSmileysHTML = box.innerHTML;
+				var tab_names = Array();
+				var tabs_loaded = Array();
+				var tabs_content = Array();';
+
+				if(isset($modSettings['tabbed_smileys'])){
+					foreach($modSettings['tabbed_smileys'] as $location => $content){
+						if($location=='postform'){
+							echo '
+							tab_names[0] = \'' . $content . '\';';
+						} else {
+							foreach($content as $id => $name){
+								echo '
+							tab_names[' . $id . '] = \'' . $name . '\';';
+							}
+						}
+					}
+				}
+				if($modSettings['enable_tabbed_interface']==2){
+							echo '
+							tab_names[-4] = \'' . $txt['tabbed_formatting'] . '\';
+							tab_names[-3] = \'' . $txt['tabbed_attachments'] . '\';
+							tab_names[-2] = \'' . $txt['attached'] . '\';
+							tab_names[-1] = \'' . $txt['tabbed_othersettings'] . '\';';
+				}
+					echo '
+
+				function tab_name(idx){
+					if(tab_names.length>idx && tab_names[idx] != \'\'){
+						return tab_names[idx];
+					}else{
+						switch(idx){
+							case -4:
+								return \'' . $txt['tabbed_formatting'] . '\';
+								break;
+							case -3:
+								return \'' . $txt['tabbed_attachments'] . '\';
+								break;
+							case -2:
+								return \'' . $txt['attached'] . '\';
+								break;
+							case -1:
+								return \'' . $txt['tabbed_othersettings'] . '\';
+								break;
+							case 0:
+								return \'' . $txt['basic_smileys'] . '\';
+								break;
+							default:
+								return \'' . $txt['additional_smileys'] . ' \' + idx;
+						}
+					}
+				}
+
+				function tabbed_loadImgs(id) {
+					var tab = document.getElementById(\'tab_\'+id+\'_elem\');
+					var links = tab.getElementsByTagName(\'img\');
+					var location = \'\';
+
+					if(id==0){
+						for(var iRow in oSmileyBox_', $editor_id, '.opt.oSmileyLocations.postform){
+							for(var iSml in oSmileyBox_', $editor_id, '.opt.oSmileyLocations.postform[iRow]){
+								if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations.postform[iRow][iSml].sSrc_hidden){
+									oSmileyBox_', $editor_id, '.opt.oSmileyLocations.postform[iRow][iSml].sSrc = oSmileyBox_', $editor_id, '.opt.oSmileyLocations.postform[iRow][iSml].sSrc_hidden;
+									document.getElementById(oSmileyBox_', $editor_id, '.opt.sUniqueId+\'_postform_\'+iRow+\'_\'+iSml).src = oSmileyBox_', $editor_id, '.opt.oSmileyLocations.postform[iRow][iSml].sSrc_hidden;
+								}
+							}
+						}
+					} else {
+						for(var iSml in oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[id-1]){
+							if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[id-1][iSml].sSrc_hidden){
+								oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[id-1][iSml].sSrc = oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[id-1][iSml].sSrc_hidden;
+								document.getElementById(oSmileyBox_', $editor_id, '.opt.sUniqueId+\'_popup_\'+(id-1)+\'_\'+iSml).src = oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[id-1][iSml].sSrc_hidden;
+							}
+						}
+					}
+				}
+
+				function tabbed_swap_sSrc(){
+					for(var iRow in oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup){
+						for(var iSml in oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[iRow]){
+							if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[iRow][iSml].sSrc_hidden){
+								oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[iRow][iSml].sSrc = oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup[iRow][iSml].sSrc_hidden;
+							}
+						}
+					}
+				}
+
+				function tabbed_toggleElem(elem) {
+					var smileyTabsIndex = document.getElementById(\'tabs\');
+					var smileyTabsElements = smileyTabsIndex.getElementsByTagName(\'li\').length;
+					var tid = elem.split(\'_\');
+
+					if(tabs_loaded[tid[1]]==undefined && tid[1]>-1)
+						tabbed_loadImgs(tid[1]);
+
+					for (var i=', ($modSettings['enable_tabbed_interface']==2) ? '-4' : '0', '; i<smileyTabsElements; i++) {
+						e = document.getElementById(\'tab_\'+i);
+						if(e){
+							if(elem == \'tab_\'+i){
+								e.className = \'titlebg selected\';
+								document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
+							} else {
+								e.className = \'catbg unselected\';
+								document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent hide\';
+							}
+						}
+					}';
+
+					echo '
+
+					var fullTabsIndex = document.getElementById(\'full_tabbed_editor\');
+					if(fullTabsIndex){
+						var fullTabsElements = fullTabsIndex.getElementsByTagName(\'li\').length;
+						for (var i=0; i<fullTabsElements; i++) {
+							e = document.getElementById(\'tab_\'+i);
+							if(e){
+								if(elem == \'tab_\'+i){
+									e.className = \'titlebg selected\';
+									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
+								} else {
+									e.className = \'catbg unselected\';
+									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent hide\';
+								}
+							}
+						}
+					}
+				}
+
+				var boxHTML = \'<ul id="tabs"><li><a class="titlebg selected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_0" href="javascript:{}">\' + tab_name(0) + \'</a></li>\';
+				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
+					for(var i=1;i<=oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length;i++){
+						boxHTML += \'<li><a class="catbg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_\' + i + \'" href="javascript:{}">\' + tab_name(i) + \'</a></li>\';
+					}
+				}
+				boxHTML += \'</ul><div id="tab_smiley_content"></div>\'';
+
+				echo '
+				var fullboxHTML = \'\';
+				var moreHTML = oSmileyBox_', $editor_id, '.opt.sSmileyBoxTemplate.easyReplace({
+					smileyRows: \'\',
+					moreSmileys: oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup.length == 0 ? \'\' : oSmileyBox_', $editor_id, '.opt.sMoreSmileysTemplate.easyReplace({
+						moreSmileysId: oSmileyBox_', $editor_id, '.opt.sUniqueId + \'_addMoreSmileys\'
+					})
+				});
+				moreHTML = moreHTML.replace(/^\s*/, "").replace(/\s*$/, "");
+				var iReg = /\<div\>([\s\S]*)\<\/div\>/igm;
+				tabs_content[0] = \'<div id="tab_-4_elem"></div>\';
+				tabs_content[0] += \'<div id="tab_-3_elem"></div>\';
+				tabs_content[0] += \'<div id="tab_-2_elem"></div>\';
+				tabs_content[0] += \'<div id="tab_-1_elem"></div>\'
+				tabs_content[0] += \'<div id="tab_0_elem">\'+postSmileysHTML.match(iReg)+\'</div>\';
+				var sTabsContentTemp = tabs_content[0]
+
+				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
+					var sSmileyRowContent = \'\';
+					for (var iSmileyRowIndex = 0; iSmileyRowIndex < oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length; iSmileyRowIndex++)
+					{
+						var oSmileyLocationRow = oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'][iSmileyRowIndex];
+						tabs_content[iSmileyRowIndex+1] = \'\';
+						for (var iSmileyIndex = 0; iSmileyIndex < oSmileyLocationRow.length; iSmileyIndex++)
+						{
+							tabs_content[iSmileyRowIndex+1] += oSmileyBox_', $editor_id, '.opt.sSmileyTemplate.easyReplace({
+								smileySource: oSmileyLocationRow[iSmileyIndex].sSrc.php_htmlspecialchars(),
+								smileyDescription: oSmileyLocationRow[iSmileyIndex].sDescription.php_htmlspecialchars(),
+								smileyCode: oSmileyLocationRow[iSmileyIndex].sCode.php_htmlspecialchars(),
+								smileyId: oSmileyBox_', $editor_id, '.opt.sUniqueId + \'_popup_\' + iSmileyRowIndex.toString() + \'_\' + iSmileyIndex.toString()
+							});
+						}
+						sTabsContentTemp += \'<div id="tab_\'+(iSmileyRowIndex+1)+\'_elem">\' + tabs_content[iSmileyRowIndex+1] + \'</div>\';
+					}
+				};';
+				if ($modSettings['enable_tabbed_interface']==2){
+					echo '
+				fullboxHTML = \'<ul id="full_tabbed_editor">\';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-4" href="javascript:{}">\' + tab_name(-4) + \'</a></li>\';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-3" href="javascript:{}">\' + tab_name(-3) + \'</a></li>\';';
+					if (!empty($context['current_attachments'])){
+						echo '
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-2" href="javascript:{}">\' + tab_name(-2) + \'</a></li>\';';
+					}
+				echo '
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}">\' + tab_name(-1) + \'</a></li>\';
+				fullboxHTML += \'</ul>\';';
+				}
+
+				echo '
+				boxHTML = fullboxHTML + boxHTML + moreHTML;
+				box.innerHTML = boxHTML;
+				var tabsContent = document.getElementById(\'tab_smiley_content\');
+				tabsContent.innerHTML = sTabsContentTemp;
+				oSmileyBox_', $editor_id, '.initSmileys(\'postform\',document);
+				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
+					oSmileyBox_', $editor_id, '.initSmileys(\'popup\',document);
+				}
+				tabbed_toggleElem(\'tab_', ($modSettings['enable_tabbed_interface']==2) ? '-4' : '0', '\');';
+
+				if ($modSettings['enable_tabbed_interface']==2)
+					echo '
+
+				function addEvent(obj, evType, fn){ 
+					if (obj.addEventListener){ 
+						obj.addEventListener(evType, fn, false); 
+						return true; 
+					} else if (obj.attachEvent){ 
+						var r = obj.attachEvent("on"+evType, fn); 
+						return r; 
+					} else { 
+						return false; 
+					} 
+				}
+				addEvent(window, \'load\', moveElements);
+
+				function moveElements(){
+					var buttons_i = document.getElementById(\'bbcBox_message\');
+					var buttons_f = document.getElementById(\'tab_-4_elem\');
+					buttons_f.appendChild(buttons_i);
+
+					buttons_i = document.getElementById(\'postMoreOptions\');
+					buttons_f = document.getElementById(\'tab_-1_elem\');
+					buttons_f.appendChild(buttons_i);
+					buttons_i.style.display = \'block\';
+					buttons_i = document.getElementById(\'postAttachment2\');
+					buttons_i.getElementsByTagName(\'dt\')[0].innerHTML = \'\';
+					buttons_f = document.getElementById(\'tab_-3_elem\');
+					buttons_f.appendChild(buttons_i);
+					buttons_i.style.display = \'block\';
+					buttons_i = document.getElementById(\'postAttachment\');
+					buttons_f = document.getElementById(\'tab_-2_elem\');
+					if(buttons_i){
+						buttons_f.appendChild(buttons_i);
+						buttons_i.style.display = \'block\';
+						buttons_i.getElementsByTagName(\'dt\')[0].innerHTML = \'\';
+					}
+					document.getElementById(\'postAdditionalOptionsHeader\').style.display = \'none\';
+				}';
+
+				if(!empty($modSettings['hide_more_smiley']))
+					echo 'document.getElementById(oSmileyBox_', $editor_id, '.opt.sUniqueId + \'_addMoreSmileys\').style.display = \'none\';';
+
+				echo '
+				if (oSmileyBox_', $editor_id, '.opt.oSmileyLocations.popup.length > 0)
+				{
+						var oMoreLink = document.getElementById(oSmileyBox_', $editor_id, '.opt.sUniqueId + \'_addMoreSmileys\');
+						oMoreLink.instanceRef = oSmileyBox_', $editor_id, ';
+						oMoreLink.onclick = function () {
+					tabbed_swap_sSrc();
+					oSmileyBox_', $editor_id, '.handleShowMoreSmileys();
+					return false;
+						}
+				}';
+				if ($modSettings['enable_tabbed_interface']==2){
+					echo '
+					';
+				}
+			}
+]]></add>
+		</operation>
+	</file>
+
+	<file name="$themedir/ManageSmileys.template.php">
+		<operation><!-- 1 -->
+			<search position="replace"><![CDATA[
+	</div>
+	<br class="clear" />';
+}
+
+// Editing Message Icons
+function template_editicons()
+]]></search>
+			<add><![CDATA[
+	</div>';
+
+		echo '
+	<form action="', $scripturl, '?action=admin;area=smileys;sa=setorder" method="post" accept-charset="', $context['character_set'], '">
+		<div class="cat_bar">
+			<h3 class="catbg">', $txt['tabbed_smileys_tabsnames'], '</h3>
+		</div>
+		<div class="information">
+			', $txt['tabbed_smileys_tabsnames_description'], '
+		</div>
+		<div class="windowbg">
+			<span class="topslice"><span></span></span>
+			<div class="content">
+				<dl class="settings">';
+	foreach ($context['smileys'] as $name => $location)
+	{
+		if($name!='postform'){
+			foreach ($location['rows'] as $id => $row)
+			{
+				$current_name = !empty($modSettings['tabbed_smileys'][$name][$id+1]) ? $modSettings['tabbed_smileys'][$name][$id+1] : $txt['additional_smileys'] . ' '. ($id+1);
+				echo '
+					<dt><strong>', $location['title'], ' - ', $txt['tabbed_smileys_row'], ($id + 1), '</strong></dt>
+					<dd><input type="text" name="', $name, '[', ($id + 1), ']" value="', $current_name, '"/></dd>';
+			}
+		} else {
+			$current_name = !empty($modSettings['tabbed_smileys'][$name]) ? $modSettings['tabbed_smileys'][$name] : $txt['basic_smileys'];
+			echo '
+					<dt><strong>', $location['title'], '</strong></dt>
+					<dd><input type="text" name="', $name, '" value="', $current_name, '"/></dd>';
+		}
+	}
+		echo '
+				</dl>
+				<dl class="settings">
+					<label for="style_edit"><strong>', $txt['tabbed_smileys_style'] , '</strong></label>:<br />
+					<div class="centertext">
+						<textarea id="style_edit" name="style_edit" cols="80" rows="15" class="edit_file">', (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : 'ul#tabs {
+	overflow:auto;
+	list-style-type: none;
+	margin: 30px 0 0 0;
+	padding: 1px 0 0 0;
+}
+ul#tabs li {
+	float:left;
+	margin:0.3em 0.2em;
+}
+ul#tabs li a {
+	color: #000;
+	border: 1px solid #ADADAD;
+	border-bottom: none;
+	padding: 0.3em;
+	text-decoration: none;
+}
+div.tabContent {
+	border: 1px solid #ADADAD;
+	width:95%;
+}
+div.hide {
+	display: none;
+}') , '</textarea>
+					</div>
+				</dl>
+			<input type="hidden" name="sc" value="', $context['session_id'], '" />
+			<input type="submit" value="', $txt['smiley_sets_save'], '" class="button_submit" />
+			</div>
+			<span class="botslice"><span></span></span>
+		</div>
+	</form>
+	<br />';
+
+	echo '
+	<br class="clear" />';
+}
+
+// Editing Message Icons
+function template_editicons()
+]]></add>
+		</operation>
+	</file>
+
+</modification>

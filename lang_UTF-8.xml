@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+
+	<id>emanuele:tabbed_smileys</id>
+	<version>0.3.6</version>
+
+	<file name="$themedir/languages/Modifications.polish-UTF8.php" error="skip">
+		<operation>
+			<search position="end"><![CDATA[?>]]></search>
+			<add><![CDATA[
+//Begin tabbed smileys
+$txt['additional_smileys'] = 'Dodatkowe emotikony';
+$txt['basic_smileys'] = 'Podstawowe emotikony';
+$txt['tabbed_smileys_tabsnames'] = 'Wygląd i nazwy kart';
+$txt['tabbed_smileys_tabsnames_description'] = 'Tutaj zdefiniujesz wygląd i nazwy kart przeznaczonych na dodatkowe emotikony, wyświetlanych podczas pisania nowej wiadomości';
+$txt['tabbed_smileys_row'] = 'rząd';
+$txt['tabbed_smileys_tab'] = 'karta';
+$txt['tabbed_smileys_style'] = 'Wygląd kart';
+$txt['hide_more_smiley'] = 'Ukryj przycisk "więcej"';
+//End tabbed smileys
+]]>
+			</add>
+		</operation>
+	</file>
+
+	<file name="$themedir/languages/Modifications.english_british-UTF8.php" error="skip">
+		<operation>
+			<search position="end"><![CDATA[?>]]></search>
+			<add><![CDATA[
+//Begin tabbed smileys
+$txt['additional_smileys'] = 'Additional smileys';
+$txt['basic_smileys'] = 'Basic smileys';
+$txt['tabbed_smileys_tabsnames'] = 'Tabs names and appearance';
+$txt['tabbed_smileys_tabsnames_description'] = 'Here you can define the names of the tabs that will appear above the text area, when posting a new forum message or Personal Message.';
+$txt['tabbed_smileys_row'] = 'row';
+$txt['tabbed_smileys_tab'] = 'tab';
+$txt['tabbed_smileys_style'] = 'Tabs appearance';
+$txt['hide_more_smiley'] = 'Hide the "more" button';
+$txt['enable_tabbed_interface'] = 'Enable complete tabbed interface';
+$txt['tabbed_interface_off'] = 'Completely off';
+$txt['tabbed_interface_smiley'] = 'Only smileys in tabs';
+$txt['tabbed_interface_fullon'] = 'All posting elements in tabs';
+$txt['tabbed_formatting'] = 'Formatting';
+$txt['tabbed_attachments'] = 'Attachments';
+// $txt['tabbed_attached'] = $txt['attached']; //reminder
+$txt['tabbed_othersettings'] = 'Other options';
+//End tabbed smileys
+]]>
+			</add>
+		</operation>
+	</file>
+
+	<file name="$themedir/languages/Modifications.english-UTF8.php" error="skip">
+		<operation>
+			<search position="end"><![CDATA[?>]]></search>
+			<add><![CDATA[
+//Begin tabbed smileys
+$txt['additional_smileys'] = 'Additional smileys';
+$txt['basic_smileys'] = 'Basic smileys';
+$txt['tabbed_smileys_tabsnames'] = 'Tabs names and appearance';
+$txt['tabbed_smileys_tabsnames_description'] = 'Here you can define the names of the tabs that will appear above the text area, when posting a new forum message or Personal Message.';
+$txt['tabbed_smileys_row'] = 'row';
+$txt['tabbed_smileys_tab'] = 'tab';
+$txt['tabbed_smileys_style'] = 'Tabs appearance';
+$txt['hide_more_smiley'] = 'Hide the "more" button';
+$txt['enable_tabbed_interface'] = 'Enable complete tabbed interface';
+$txt['tabbed_interface_off'] = 'Completely off';
+$txt['tabbed_interface_smiley'] = 'Only smileys in tabs';
+$txt['tabbed_interface_fullon'] = 'All posting elements in tabs';
+$txt['tabbed_formatting'] = 'Formatting';
+$txt['tabbed_attachments'] = 'Attachments';
+// $txt['tabbed_attached'] = $txt['attached']; //reminder
+$txt['tabbed_othersettings'] = 'Other options';
+//End tabbed smileys
+]]>
+			</add>
+		</operation>
+	</file>
+
+	<file name="$themedir/languages/Modifications.italian-UTF8.php" error="skip">
+		<operation>
+			<search position="end"><![CDATA[?>]]></search>
+			<add><![CDATA[
+//Begin tabbed smileys
+$txt['additional_smileys'] = 'Smiley aggiuntivi';
+$txt['basic_smileys'] = 'Smiley base';
+$txt['tabbed_smileys_tabsnames'] = 'Nomi dei tab e stile';
+$txt['tabbed_smileys_tabsnames_description'] = 'Qui puoi definire il nome con cui saranno indicati i tab che appariranno sopra l\'area di testo, quando posterai un messaggio nel forum o invierai un Messaggio Personale.';
+$txt['tabbed_smileys_row'] = 'riga';
+$txt['tabbed_smileys_tab'] = 'tab';
+$txt['tabbed_smileys_style'] = 'Aspetto dei tab';
+$txt['hide_more_smiley'] = 'Nasconde il pulsante "altri"';
+$txt['enable_tabbed_interface'] = 'Attiva interfaccia a tab';
+$txt['tabbed_interface_off'] = 'Completamente spenta';
+$txt['tabbed_interface_smiley'] = 'Solo gli smiley nei tab';
+$txt['tabbed_interface_fullon'] = 'Tutti gli elementi del post in tab';
+$txt['tabbed_formatting'] = 'Formattazione';
+$txt['tabbed_attachments'] = 'Allegati';
+// $txt['tabbed_attached'] = $txt['attached']; //reminder
+$txt['tabbed_othersettings'] = 'Altre opzioni';
+//End tabbed smileys
+]]>
+			</add>
+		</operation>
+	</file>
+
+</modification>
