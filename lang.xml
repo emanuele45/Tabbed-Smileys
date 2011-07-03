@@ -6,7 +6,7 @@
 	<id>emanuele:tabbed_smileys</id>
 	<version>0.3.6</version>
 
-	<file name="$themedir/languages/Modifications.italian.php" error="skip">
+	<file name="$languagedir/Modifications.italian.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[
@@ -33,7 +33,7 @@ $txt['tabbed_othersettings'] = 'Altre opzioni';
 		</operation>
 	</file>
 
-	<file name="$themedir/languages/Modifications.english_british.php" error="skip">
+	<file name="$languagedir/Modifications.english_british.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[
@@ -60,7 +60,7 @@ $txt['tabbed_othersettings'] = 'Other options';
 		</operation>
 	</file>
 
-	<file name="$themedir/languages/Modifications.english.php">
+	<file name="$languagedir/Modifications.english.php">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[

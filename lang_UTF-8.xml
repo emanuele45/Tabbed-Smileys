@@ -6,7 +6,7 @@
 	<id>emanuele:tabbed_smileys</id>
 	<version>0.3.6</version>
 
-	<file name="$themedir/languages/Modifications.polish-UTF8.php" error="skip">
+	<file name="$languagedir/Modifications.polish-UTF8.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[
@@ -25,7 +25,7 @@ $txt['hide_more_smiley'] = 'Ukryj przycisk "więcej"';
 		</operation>
 	</file>
 
-	<file name="$themedir/languages/Modifications.english_british-UTF8.php" error="skip">
+	<file name="$languagedir/Modifications.english_british-UTF8.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[
@@ -52,7 +52,7 @@ $txt['tabbed_othersettings'] = 'Other options';
 		</operation>
 	</file>
 
-	<file name="$themedir/languages/Modifications.english-UTF8.php" error="skip">
+	<file name="$languagedir/Modifications.english-UTF8.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[
@@ -79,7 +79,7 @@ $txt['tabbed_othersettings'] = 'Other options';
 		</operation>
 	</file>
 
-	<file name="$themedir/languages/Modifications.italian-UTF8.php" error="skip">
+	<file name="$languagedir/Modifications.italian-UTF8.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[

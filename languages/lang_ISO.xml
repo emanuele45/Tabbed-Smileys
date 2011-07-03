@@ -6,7 +6,7 @@
 	<id>emanuele:tabbed_smileys_additional_languages</id>
 	<version>0.3.5</version>
 
-	<file name="$themedir/languages/Modifications.english_british.php" error="skip">
+	<file name="$languagedir/Modifications.english_british.php" error="skip">
 		<operation>
 			<search position="end"><![CDATA[?>]]></search>
 			<add><![CDATA[
