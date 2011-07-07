@@ -4,7 +4,7 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 
 	<id>emanuele:tabbed_smileys</id>
-	<version>0.3.6</version>
+	<version>0.3.99</version>
 
 	<file name="$languagedir/Modifications.italian.php" error="skip">
 		<operation>
