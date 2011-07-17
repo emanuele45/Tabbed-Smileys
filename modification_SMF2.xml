@@ -23,7 +23,8 @@
 			<search position="before"><![CDATA[
 			array('check', 'disable_wysiwyg'),]]></search>
 			<add><![CDATA[
-			array('select', 'enable_tabbed_interface', array(0 => $txt['tabbed_interface_off'], 1 => $txt['tabbed_interface_smiley'], 2 => $txt['tabbed_interface_fullon'])),]]></add>
+			array('select', 'enable_tabbed_interface', array(0 => $txt['tabbed_interface_off'], 1 => $txt['tabbed_interface_smiley'], 2 => $txt['tabbed_interface_fullon'])),
+			array('check', !empty($modSettings['enable_tabbed_interface']) && $modSettings['enable_tabbed_interface']==2 ? 'tabbed_smileys_two_lines' : ''),]]></add>
 		</operation>
 	</file>
 
@@ -196,6 +197,9 @@ function tabbed_smileys_add_options(){
 		}
 		div.hide {
 			display: none;
+		}
+		div.tabContent_spacer {
+			margin-top: 0.5em;
 		}') . '
 	</style>';
 ]]></add>
@@ -331,33 +335,39 @@ function tabbed_smileys_add_options(){
 
 				function tabbed_toggleElem(elem) {
 					var smileyTabsIndex = document.getElementById(\'tabs\');
-					var smileyTabsElements = smileyTabsIndex.getElementsByTagName(\'li\').length;
-					var tid = elem.split(\'_\');
+					if(smileyTabsIndex){
+						var smileyTabsElements = smileyTabsIndex.getElementsByTagName(\'li\').length;
+						var tid = elem.split(\'_\');
 
-					if(tabs_loaded[tid[1]]==undefined && tid[1]>-1)
-						tabbed_loadImgs(tid[1]);
+						if(tabs_loaded[tid[1]]==undefined && tid[1]>-1)
+							tabbed_loadImgs(tid[1]);
 
-					for (var i=', ($modSettings['enable_tabbed_interface']==2) ? '-4' : '0', '; i<smileyTabsElements; i++) {
-						e = document.getElementById(\'tab_\'+i);
-						if(e){
-							if(elem == \'tab_\'+i){
-								e.className = \'titlebg selected\';
-								document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
-							} else {
-								e.className = \'catbg unselected\';
-								document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent hide\';
+						for (var i=', ($modSettings['enable_tabbed_interface']==2) ? '-4' : '0', '; i<smileyTabsElements; i++) {
+							e = document.getElementById(\'tab_\'+i);
+							if(e){
+								if(elem == \'tab_\'+i){
+									e.className = \'titlebg selected\';
+									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
+								} else {
+									e.className = \'catbg unselected\';
+									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent hide\';
+								}
 							}
 						}
 					}';
 
 					echo '
-
 					var fullTabsIndex = document.getElementById(\'full_tabbed_editor\');
 					if(fullTabsIndex){
 						var fullTabsElements = fullTabsIndex.getElementsByTagName(\'li\').length;
-						for (var i=0; i<fullTabsElements; i++) {
+						for (var i=', empty($modSettings['tabbed_smileys_two_lines']) ? '-4' : '0', '; i<fullTabsElements; i++) {
 							e = document.getElementById(\'tab_\'+i);
 							if(e){
+								if(i>-1){
+									var tid = elem.split(\'_\');
+									if(tabs_loaded[tid[1]]==undefined && tid[1]>-1)
+										tabbed_loadImgs(tid[1]);
+								}
 								if(elem == \'tab_\'+i){
 									e.className = \'titlebg selected\';
 									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
@@ -370,7 +380,7 @@ function tabbed_smileys_add_options(){
 					}
 				}
 
-				var boxHTML = \'<ul id="tabs"><li><a class="titlebg selected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_0" href="javascript:{}">\' + tab_name(0) + \'</a></li>\';
+				var boxHTML = \'', $modSettings['enable_tabbed_interface']!=2 || !empty($modSettings['tabbed_smileys_two_lines']) ? '<ul id="tabs">' : '', '<li><a class="titlebg selected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_0" href="javascript:{}">\' + tab_name(0) + \'</a></li>\';
 				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
 					for(var i=1;i<=oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length;i++){
 						boxHTML += \'<li><a class="catbg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_\' + i + \'" href="javascript:{}">\' + tab_name(i) + \'</a></li>\';
@@ -392,7 +402,7 @@ function tabbed_smileys_add_options(){
 				tabs_content[0] += \'<div id="tab_-3_elem"></div>\';
 				tabs_content[0] += \'<div id="tab_-2_elem"></div>\';
 				tabs_content[0] += \'<div id="tab_-1_elem"></div>\'
-				tabs_content[0] += \'<div id="tab_0_elem">\'+postSmileysHTML.match(iReg)+\'</div>\';
+				tabs_content[0] += \'<div id="tab_0_elem"><div class="tabContent_spacer">\'+postSmileysHTML.match(iReg)+\'</div></div>\';
 				var sTabsContentTemp = tabs_content[0]
 
 				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
@@ -410,9 +420,10 @@ function tabbed_smileys_add_options(){
 								smileyId: oSmileyBox_', $editor_id, '.opt.sUniqueId + \'_popup_\' + iSmileyRowIndex.toString() + \'_\' + iSmileyIndex.toString()
 							});
 						}
-						sTabsContentTemp += \'<div id="tab_\'+(iSmileyRowIndex+1)+\'_elem">\' + tabs_content[iSmileyRowIndex+1] + \'</div>\';
+						sTabsContentTemp += \'<div id="tab_\'+(iSmileyRowIndex+1)+\'_elem"><div class="tabContent_spacer">\' + tabs_content[iSmileyRowIndex+1] + \'</div></div>\';
 					}
 				};';
+
 				if ($modSettings['enable_tabbed_interface']==2){
 					echo '
 				fullboxHTML = \'<ul id="full_tabbed_editor">\';
@@ -423,8 +434,8 @@ function tabbed_smileys_add_options(){
 				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-2" href="javascript:{}">\' + tab_name(-2) + \'</a></li>\';';
 					}
 				echo '
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}">\' + tab_name(-1) + \'</a></li>\';
-				fullboxHTML += \'</ul>\';';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}">\' + tab_name(-1) + \'</a></li>\';', !empty($modSettings['tabbed_smileys_two_lines']) ? '
+				fullboxHTML += \'</ul>\';' : '';
 				}
 
 				echo '
@@ -548,30 +559,34 @@ function template_editicons()
 				<dl class="settings">
 					<label for="style_edit"><strong>', $txt['tabbed_smileys_style'] , '</strong></label>:<br />
 					<div class="centertext">
-						<textarea id="style_edit" name="style_edit" cols="80" rows="15" class="edit_file">', (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : 'ul#tabs {
-	overflow:auto;
-	list-style-type: none;
-	margin: 30px 0 0 0;
-	padding: 1px 0 0 0;
-}
-ul#tabs li {
-	float:left;
-	margin:0.3em 0.2em;
-}
-ul#tabs li a {
-	color: #000;
-	border: 1px solid #ADADAD;
-	border-bottom: none;
-	padding: 0.3em;
-	text-decoration: none;
-}
-div.tabContent {
-	border: 1px solid #ADADAD;
-	width:95%;
-}
-div.hide {
-	display: none;
-}') , '</textarea>
+						<textarea id="style_edit" name="style_edit" cols="80" rows="15" class="edit_file">', (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : 'ul#tabs, ul#full_tabbed_editor {
+			overflow:auto;
+			list-style-type: none;
+			margin: 0;
+			padding: 0.1em 0;
+		}
+		ul#tabs li, ul#full_tabbed_editor li {
+			float:left;
+			margin:0.3em 0.2em;
+		}
+		ul#tabs li a, ul#full_tabbed_editor li a {
+			color: #000;
+			border: 1px solid #ADADAD;
+			border-bottom: none;
+			padding: 0.3em;
+			text-decoration: none;
+		}
+		div.tabContent {
+			width:100%;
+			overflow:auto;
+			height: 100px;
+		}
+		div.hide {
+			display: none;
+		}
+		div.tabContent_spacer {
+			margin-top: 0.5em;
+		}') , '</textarea>
 					</div>
 				</dl>
 			<input type="hidden" name="sc" value="', $context['session_id'], '" />

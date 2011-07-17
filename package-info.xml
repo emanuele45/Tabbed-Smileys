@@ -4,25 +4,14 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>emanuele:tabbed_smileys</id>
 	<name>Tabbed smileys</name>
-	<version>0.3.99</version>
+	<version>0.3.99b</version>
 	<type>modification</type>
-	<install for="1.1.11 - 1.1.13">
-		<modification>modification.xml</modification>
-		<modification>lang.xml</modification>
-		<modification>lang_UTF8.xml</modification>
-	</install>
-	<uninstall for="1.1.11 - 1.13">
-		<modification reverse="true">modification.xml</modification>
-		<modification reverse="true">lang.xml</modification>
-		<modification reverse="true">lang_UTF8.xml</modification>
-	</uninstall>
-
-	<install for="2.0 RC3 - 2.0 RC5">
+	<install for="2.0">
 		<modification>modification_SMF2.xml</modification>
 		<modification>lang.xml</modification>
 		<modification>lang_UTF8.xml</modification>
 	</install>
-	<uninstall for="2.0 RC3 - 2.0 RC5">
+	<uninstall for="2.0">
 		<modification reverse="true">modification_SMF2.xml</modification>
 		<modification reverse="true">lang.xml</modification>
 		<modification reverse="true">lang_UTF8.xml</modification>

@@ -8,7 +8,7 @@
 
 	<file name="$languagedir/Modifications.italian.php" error="skip">
 		<operation>
-			<search position="end"><![CDATA[?>]]></search>
+			<search position="end" />
 			<add><![CDATA[
 //Begin tabbed smileys
 $txt['additional_smileys'] = 'Smiley aggiuntivi';
@@ -23,6 +23,7 @@ $txt['enable_tabbed_interface'] = 'Attiva interfaccia a tab';
 $txt['tabbed_interface_off'] = 'Completamente spenta';
 $txt['tabbed_interface_smiley'] = 'Solo gli smiley nei tab';
 $txt['tabbed_interface_fullon'] = 'Tutti gli elementi del post in tab';
+$txt['tabbed_smileys_two_lines'] = 'Visualizza i tab degli smiley in una riga separata';
 $txt['tabbed_formatting'] = 'Formattazione';
 $txt['tabbed_attachments'] = 'Allegati';
 // $txt['tabbed_attached'] = $txt['attached']; //reminder
@@ -35,7 +36,7 @@ $txt['tabbed_othersettings'] = 'Altre opzioni';
 
 	<file name="$languagedir/Modifications.english_british.php" error="skip">
 		<operation>
-			<search position="end"><![CDATA[?>]]></search>
+			<search position="end" />
 			<add><![CDATA[
 //Begin tabbed smileys
 $txt['additional_smileys'] = 'Additional smileys';
@@ -50,6 +51,7 @@ $txt['enable_tabbed_interface'] = 'Enable complete tabbed interface';
 $txt['tabbed_interface_off'] = 'Completely off';
 $txt['tabbed_interface_smiley'] = 'Only smileys in tabs';
 $txt['tabbed_interface_fullon'] = 'All posting elements in tabs';
+$txt['tabbed_smileys_two_lines'] = 'Show smileys\' tabs in a separated row';
 $txt['tabbed_formatting'] = 'Formatting';
 $txt['tabbed_attachments'] = 'Attachments';
 // $txt['tabbed_attached'] = $txt['attached']; //reminder
@@ -62,7 +64,7 @@ $txt['tabbed_othersettings'] = 'Other options';
 
 	<file name="$languagedir/Modifications.english.php">
 		<operation>
-			<search position="end"><![CDATA[?>]]></search>
+			<search position="end" />
 			<add><![CDATA[
 //Begin tabbed smileys
 $txt['additional_smileys'] = 'Additional smileys';
@@ -77,6 +79,7 @@ $txt['enable_tabbed_interface'] = 'Enable complete tabbed interface';
 $txt['tabbed_interface_off'] = 'Completely off';
 $txt['tabbed_interface_smiley'] = 'Only smileys in tabs';
 $txt['tabbed_interface_fullon'] = 'All posting elements in tabs';
+$txt['tabbed_smileys_two_lines'] = 'Show smileys\' tabs in a separated row';
 $txt['tabbed_formatting'] = 'Formatting';
 $txt['tabbed_attachments'] = 'Attachments';
 // $txt['tabbed_attached'] = $txt['attached']; //reminder

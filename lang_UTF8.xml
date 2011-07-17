@@ -8,7 +8,7 @@
 
 	<file name="$languagedir/Modifications.polish-utf8.php" error="skip">
 		<operation>
-			<search position="end"><![CDATA[?>]]></search>
+			<search position="end" />
 			<add><![CDATA[
 //Begin tabbed smileys
 $txt['additional_smileys'] = 'Dodatkowe emotikony';
@@ -27,7 +27,7 @@ $txt['hide_more_smiley'] = 'Ukryj przycisk "więcej"';
 
 	<file name="$languagedir/Modifications.english_british-utf8.php" error="skip">
 		<operation>
-			<search position="end"><![CDATA[?>]]></search>
+			<search position="end" />
 			<add><![CDATA[
 //Begin tabbed smileys
 $txt['additional_smileys'] = 'Additional smileys';
@@ -42,6 +42,7 @@ $txt['enable_tabbed_interface'] = 'Enable complete tabbed interface';
 $txt['tabbed_interface_off'] = 'Completely off';
 $txt['tabbed_interface_smiley'] = 'Only smileys in tabs';
 $txt['tabbed_interface_fullon'] = 'All posting elements in tabs';
+$txt['tabbed_smileys_two_lines'] = 'Show smileys\' tabs in a separated row';
 $txt['tabbed_formatting'] = 'Formatting';
 $txt['tabbed_attachments'] = 'Attachments';
 // $txt['tabbed_attached'] = $txt['attached']; //reminder
@@ -54,7 +55,7 @@ $txt['tabbed_othersettings'] = 'Other options';
 
 	<file name="$languagedir/Modifications.english-utf8.php" error="skip">
 		<operation>
-			<search position="end"><![CDATA[?>]]></search>
+			<search position="end" />
 			<add><![CDATA[
 //Begin tabbed smileys
 $txt['additional_smileys'] = 'Additional smileys';
@@ -69,6 +70,7 @@ $txt['enable_tabbed_interface'] = 'Enable complete tabbed interface';
 $txt['tabbed_interface_off'] = 'Completely off';
 $txt['tabbed_interface_smiley'] = 'Only smileys in tabs';
 $txt['tabbed_interface_fullon'] = 'All posting elements in tabs';
+$txt['tabbed_smileys_two_lines'] = 'Show smileys\' tabs in a separated row';
 $txt['tabbed_formatting'] = 'Formatting';
 $txt['tabbed_attachments'] = 'Attachments';
 // $txt['tabbed_attached'] = $txt['attached']; //reminder
