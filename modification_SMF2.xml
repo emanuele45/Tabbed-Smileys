@@ -187,6 +187,10 @@ function tabbed_smileys_add_options(){
 		#tab_smiley_content {
 			padding-top:10px;
 		}' : '') . '
+		#tabs
+		{
+			margin-top:15px;
+		}
 	</style>';
 ]]></add>
 		</operation>
@@ -252,6 +256,7 @@ function tabbed_smileys_add_options(){
 				}
 				if($modSettings['enable_tabbed_interface']==2){
 							echo '
+							tab_names[-5] = \'' . ($context['current_action']!='pm' ? $txt['tabbed_subject_and_icons'] : $txt['tabbed_to_and_subject']) . '\';
 							tab_names[-4] = \'' . $txt['tabbed_formatting'] . '\';
 							tab_names[-3] = \'' . $txt['tabbed_attachments'] . '\';
 							tab_names[-2] = \'' . $txt['attached'] . '\';
@@ -260,10 +265,13 @@ function tabbed_smileys_add_options(){
 					echo '
 
 				function tab_name(idx){
-					if(tab_names.length>idx && tab_names[idx] != \'\'){
+					if (tab_names.length>idx && tab_names[idx] != \'\') {
 						return tab_names[idx];
-					}else{
+					} else {
 						switch(idx){
+							case -5:
+								return \'' . ($context['current_action']!='pm' ? $txt['tabbed_subject_and_icons'] : $txt['tabbed_to_and_subject']) . '\';
+								break;
 							case -4:
 								return \'' . $txt['tabbed_formatting'] . '\';
 								break;
@@ -277,7 +285,7 @@ function tabbed_smileys_add_options(){
 								return \'' . $txt['tabbed_othersettings'] . '\';
 								break;
 							case 0:
-								return \'' . $txt['basic_smileys'] . '\';
+								return \'' . (empty($context['smileys']['popup']) ? $txt['icon_smiley'] : $txt['basic_smileys']) . '\';
 								break;
 							default:
 								return \'' . $txt['additional_smileys'] . ' \' + idx;
@@ -328,7 +336,7 @@ function tabbed_smileys_add_options(){
 						if(tabs_loaded[tid[1]]==undefined && tid[1]>-1)
 							tabbed_loadImgs(tid[1]);
 
-						for (var i=', ($modSettings['enable_tabbed_interface']==2) ? '-4' : '0', '; i<smileyTabsElements; i++) {
+						for (var i=', ($modSettings['enable_tabbed_interface']==2) ? '-5' : '0', '; i<smileyTabsElements; i++) {
 							e = document.getElementById(\'tab_\'+i);
 							if(e){
 								if(elem == \'tab_\'+i){
@@ -346,7 +354,7 @@ function tabbed_smileys_add_options(){
 					var fullTabsIndex = document.getElementById(\'full_tabbed_editor\');
 					if(fullTabsIndex){
 						var fullTabsElements = fullTabsIndex.getElementsByTagName(\'li\').length;
-						for (var i=', empty($modSettings['tabbed_smileys_two_lines']) ? '-4' : '0', '; i<fullTabsElements; i++) {
+						for (var i=', empty($modSettings['tabbed_smileys_two_lines']) ? '-5' : '0', '; i<fullTabsElements; i++) {
 							e = document.getElementById(\'tab_\'+i);
 							if(e){
 								if(i>-1){
@@ -384,12 +392,13 @@ function tabbed_smileys_add_options(){
 				});
 				moreHTML = moreHTML.replace(/^\s*/, "").replace(/\s*$/, "");
 				var iReg = /\<div\>([\s\S]*)\<\/div\>/igm;
-				tabs_content[0] = \'<div id="tab_-4_elem"></div>\';
+				tabs_content[0] = \'<div id="tab_-5_elem"></div>\';
+				tabs_content[0] += \'<div id="tab_-4_elem"></div>\';
 				tabs_content[0] += \'<div id="tab_-3_elem"></div>\';
 				tabs_content[0] += \'<div id="tab_-2_elem"></div>\';
 				tabs_content[0] += \'<div id="tab_-1_elem"></div>\'
 				tabs_content[0] += \'<div id="tab_0_elem"><div class="tabContent_spacer">\'+postSmileysHTML.match(iReg)+\'</div></div>\';
-				var sTabsContentTemp = tabs_content[0]
+				var sTabsContentTemp = tabs_content[0];
 
 				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
 					var sSmileyRowContent = \'\';
@@ -413,15 +422,20 @@ function tabbed_smileys_add_options(){
 				if ($modSettings['enable_tabbed_interface']==2){
 					echo '
 				fullboxHTML = \'<ul id="full_tabbed_editor">\';
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-4" href="javascript:{}"><span>\' + tab_name(-4) + \'</span></a></li>\';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-5" href="javascript:{}"><span>\' + tab_name(-5) + \'</span></a></li>\';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-4" href="javascript:{}"><span>\' + tab_name(-4) + \'</span></a></li>\';';
+					if ($context['current_action']!='pm')
+						echo '
 				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-3" href="javascript:{}"><span>\' + tab_name(-3) + \'</span></a></li>\';';
-					if (!empty($context['current_attachments'])){
+					if (!empty($context['current_attachments']))
 						echo '
 				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-2" href="javascript:{}"><span>\' + tab_name(-2) + \'</span></a></li>\';';
-					}
-				echo '
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}"><span>\' + tab_name(-1) + \'</span></a></li>\';', !empty($modSettings['tabbed_smileys_two_lines']) ? '
-				fullboxHTML += \'</ul>\';' : '';
+					if ($context['current_action']!='pm')
+						echo '
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}"><span>\' + tab_name(-1) + \'</span></a></li>\';';
+					if (!empty($modSettings['tabbed_smileys_two_lines']))
+						echo '
+				fullboxHTML += \'</ul>\';';
 				}
 
 				echo '
@@ -433,7 +447,7 @@ function tabbed_smileys_add_options(){
 				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
 					oSmileyBox_', $editor_id, '.initSmileys(\'popup\',document);
 				}
-				tabbed_toggleElem(\'tab_', ($modSettings['enable_tabbed_interface']==2) ? '-4' : '0', '\');';
+				tabbed_toggleElem(\'tab_', $modSettings['enable_tabbed_interface']==2 ? (empty($context['post_error']['no_to']) && empty($context['post_error']['no_subject']) && empty($context['post_error']['no_subject']) ? '-4' : '-5') : '0', '\');';
 
 				if ($modSettings['enable_tabbed_interface']==2)
 					echo '
@@ -456,6 +470,9 @@ function tabbed_smileys_add_options(){
 					var buttons_f = document.getElementById(\'tab_-4_elem\');
 					buttons_f.appendChild(buttons_i);
 
+					buttons_i = document.getElementById(\'post_header\');
+					buttons_f = document.getElementById(\'tab_-5_elem\');
+					buttons_f.appendChild(buttons_i);
 					buttons_i = document.getElementById(\'postMoreOptions\');
 					buttons_f = document.getElementById(\'tab_-1_elem\');
 					buttons_f.appendChild(buttons_i);
