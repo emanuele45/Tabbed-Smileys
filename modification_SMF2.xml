@@ -173,24 +173,7 @@ function tabbed_smileys_add_options(){
 			<add><![CDATA[
 	$context['html_headers'] .= '
 	<style type="text/css">
-		' . (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : 'ul#tabs, ul#full_tabbed_editor {
-			overflow:auto;
-			list-style-type: none;
-			margin: 0;
-			padding: 0.1em 0;
-		}
-		ul#tabs li, ul#full_tabbed_editor li {
-			float:left;
-			margin:0.3em 0.2em;
-		}
-		ul#tabs li a, ul#full_tabbed_editor li a {
-			color: #000;
-			border: 1px solid #ADADAD;
-			border-bottom: none;
-			padding: 0.3em;
-			text-decoration: none;
-		}
-		div.tabContent {
+		' . (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : '		div.tabContent {
 			width:100%;
 			overflow:auto;
 			height: 100px;
@@ -200,7 +183,10 @@ function tabbed_smileys_add_options(){
 		}
 		div.tabContent_spacer {
 			margin-top: 0.5em;
-		}') . '
+		}') . ($context['browser']['is_gecko'] ? '
+		#tab_smiley_content {
+			padding-top:10px;
+		}' : '') . '
 	</style>';
 ]]></add>
 		</operation>
@@ -346,7 +332,7 @@ function tabbed_smileys_add_options(){
 							e = document.getElementById(\'tab_\'+i);
 							if(e){
 								if(elem == \'tab_\'+i){
-									e.className = \'titlebg selected\';
+									e.className = \'titlebg selected active\';
 									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
 								} else {
 									e.className = \'catbg unselected\';
@@ -369,7 +355,7 @@ function tabbed_smileys_add_options(){
 										tabbed_loadImgs(tid[1]);
 								}
 								if(elem == \'tab_\'+i){
-									e.className = \'titlebg selected\';
+									e.className = \'titlebg selected active\';
 									document.getElementById(\'tab_\'+i+\'_elem\').className = \'tabContent\';
 								} else {
 									e.className = \'catbg unselected\';
@@ -380,10 +366,10 @@ function tabbed_smileys_add_options(){
 					}
 				}
 
-				var boxHTML = \'', $modSettings['enable_tabbed_interface']!=2 || !empty($modSettings['tabbed_smileys_two_lines']) ? '<ul id="tabs">' : '', '<li><a class="titlebg selected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_0" href="javascript:{}">\' + tab_name(0) + \'</a></li>\';
+				var boxHTML = \'', $modSettings['enable_tabbed_interface']!=2 || !empty($modSettings['tabbed_smileys_two_lines']) ? '<ul id="tabs">' : '', '<li><a class="titlebg selected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_0" href="javascript:{}"><span>\' + tab_name(0) + \'</span></a></li>\';
 				if(oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length>0){
 					for(var i=1;i<=oSmileyBox_', $editor_id, '.opt.oSmileyLocations[\'popup\'].length;i++){
-						boxHTML += \'<li><a class="catbg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_\' + i + \'" href="javascript:{}">\' + tab_name(i) + \'</a></li>\';
+						boxHTML += \'<li><a class="catbg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_\' + i + \'" href="javascript:{}"><span>\' + tab_name(i) + \'</span></a></li>\';
 					}
 				}
 				boxHTML += \'</ul><div id="tab_smiley_content"></div>\'';
@@ -427,19 +413,19 @@ function tabbed_smileys_add_options(){
 				if ($modSettings['enable_tabbed_interface']==2){
 					echo '
 				fullboxHTML = \'<ul id="full_tabbed_editor">\';
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-4" href="javascript:{}">\' + tab_name(-4) + \'</a></li>\';
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-3" href="javascript:{}">\' + tab_name(-3) + \'</a></li>\';';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-4" href="javascript:{}"><span>\' + tab_name(-4) + \'</span></a></li>\';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-3" href="javascript:{}"><span>\' + tab_name(-3) + \'</span></a></li>\';';
 					if (!empty($context['current_attachments'])){
 						echo '
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-2" href="javascript:{}">\' + tab_name(-2) + \'</a></li>\';';
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-2" href="javascript:{}"><span>\' + tab_name(-2) + \'</span></a></li>\';';
 					}
 				echo '
-				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}">\' + tab_name(-1) + \'</a></li>\';', !empty($modSettings['tabbed_smileys_two_lines']) ? '
+				fullboxHTML += \'<li><a class="titlebg unselected" onclick="tabbed_toggleElem(this.id); return false;" id="tab_-1" href="javascript:{}"><span>\' + tab_name(-1) + \'</span></a></li>\';', !empty($modSettings['tabbed_smileys_two_lines']) ? '
 				fullboxHTML += \'</ul>\';' : '';
 				}
 
 				echo '
-				boxHTML = fullboxHTML + boxHTML + moreHTML;
+				boxHTML = \'<div class="buttonlist floatleft">\' + fullboxHTML + boxHTML + moreHTML + \'</div>\';
 				box.innerHTML = boxHTML;
 				var tabsContent = document.getElementById(\'tab_smiley_content\');
 				tabsContent.innerHTML = sTabsContentTemp;
@@ -559,24 +545,7 @@ function template_editicons()
 				<dl class="settings">
 					<label for="style_edit"><strong>', $txt['tabbed_smileys_style'] , '</strong></label>:<br />
 					<div class="centertext">
-						<textarea id="style_edit" name="style_edit" cols="80" rows="15" class="edit_file">', (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : 'ul#tabs, ul#full_tabbed_editor {
-			overflow:auto;
-			list-style-type: none;
-			margin: 0;
-			padding: 0.1em 0;
-		}
-		ul#tabs li, ul#full_tabbed_editor li {
-			float:left;
-			margin:0.3em 0.2em;
-		}
-		ul#tabs li a, ul#full_tabbed_editor li a {
-			color: #000;
-			border: 1px solid #ADADAD;
-			border-bottom: none;
-			padding: 0.3em;
-			text-decoration: none;
-		}
-		div.tabContent {
+						<textarea id="style_edit" name="style_edit" cols="80" rows="15" class="edit_file">', (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : '		div.tabContent {
 			width:100%;
 			overflow:auto;
 			height: 100px;
