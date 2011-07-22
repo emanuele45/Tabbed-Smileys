@@ -4,7 +4,7 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>emanuele:tabbed_smileys</id>
 	<name>Tabbed smileys</name>
-	<version>0.3.99b</version>
+	<version>0.3.99c</version>
 	<type>modification</type>
 	<install for="2.0">
 		<modification>modification_SMF2.xml</modification>
