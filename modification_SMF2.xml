@@ -2,8 +2,20 @@
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
-
 	<id>emanuele:tabbed_smileys</id>
+	<license><!--
+/**
+ * Tabbed Smileys (TSm)
+ *
+ * @package TSm
+ * @author emanuele
+ * @copyright 2011 emanuele, Simple Machines
+ * @license http://www.simplemachines.org/about/smf/license.php BSD
+ *
+ * @version 0.3.99c
+ */
+--></license>
+	<name>Tabbed smileys</name>
 	<version>0.3.99c</version>
 
 	<file name="$sourcedir/Load.php">
@@ -176,7 +188,7 @@ function tabbed_smileys_add_options(){
 		' . (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : '		div.tabContent {
 			width:100%;
 			overflow:auto;
-			height: 100px;
+			padding-bottom: 10px;
 		}
 		div.hide {
 			display: none;
@@ -565,7 +577,7 @@ function template_editicons()
 						<textarea id="style_edit" name="style_edit" cols="80" rows="15" class="edit_file">', (!empty($modSettings['tabbed_smilyes_style']) ? $modSettings['tabbed_smilyes_style'] : '		div.tabContent {
 			width:100%;
 			overflow:auto;
-			height: 100px;
+			padding-bottom: 10px;
 		}
 		div.hide {
 			display: none;

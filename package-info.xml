@@ -3,15 +3,27 @@
 
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>emanuele:tabbed_smileys</id>
+	<license><!--
+/**
+ * Tabbed Smileys (TSm)
+ *
+ * @package TSm
+ * @author emanuele
+ * @copyright 2011 emanuele, Simple Machines
+ * @license http://www.simplemachines.org/about/smf/license.php BSD
+ *
+ * @version 0.3.99c
+ */
+--></license>
 	<name>Tabbed smileys</name>
 	<version>0.3.99c</version>
 	<type>modification</type>
-	<install for="2.0">
+	<install for="2.0 - 2.0.99">
 		<modification>modification_SMF2.xml</modification>
 		<modification>lang.xml</modification>
 		<modification>lang_UTF8.xml</modification>
 	</install>
-	<uninstall for="2.0">
+	<uninstall for="2.0 - 2.0.99">
 		<modification reverse="true">modification_SMF2.xml</modification>
 		<modification reverse="true">lang.xml</modification>
 		<modification reverse="true">lang_UTF8.xml</modification>

@@ -2,8 +2,20 @@
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
-
 	<id>emanuele:tabbed_smileys</id>
+	<license><!--
+/**
+ * Tabbed Smileys (TSm)
+ *
+ * @package TSm
+ * @author emanuele
+ * @copyright 2011 emanuele, Simple Machines
+ * @license http://www.simplemachines.org/about/smf/license.php BSD
+ *
+ * @version 0.3.99c
+ */
+--></license>
+	<name>Tabbed smileys</name>
 	<version>0.3.99c</version>
 
 	<file name="$languagedir/Modifications.polish-utf8.php" error="skip">
