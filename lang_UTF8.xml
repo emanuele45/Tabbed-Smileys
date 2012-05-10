@@ -18,6 +18,38 @@
 	<name>Tabbed smileys</name>
 	<version>0.3.99c</version>
 
+//Russian translation by Knivy, 2012.
+<file name="$languagedir/Modifications.russian-utf8.php" error="skip">
+      <operation>
+         <search position="end" />
+         <add><![CDATA[
+//Begin tabbed smileys
+$txt['additional_smileys'] = 'Больше смайлов';
+$txt['basic_smileys'] = 'Смайлы';
+$txt['tabbed_smileys_tabsnames'] = 'Названия и внешний вид вкладок';
+$txt['tabbed_smileys_tabsnames_description'] = 'Здесь можно задать имена вкладок, отображаемых над областью текста при отправке нового сообщения в теме или личного сообщения.';
+$txt['tabbed_smileys_row'] = 'ряд';
+$txt['tabbed_smileys_tab'] = 'вкладка';
+$txt['tabbed_smileys_style'] = 'Внешний вид вкладок';
+$txt['hide_more_smiley'] = 'Спрятать кнопку «Больше смайлов»';
+$txt['enable_tabbed_interface'] = 'Включить интерфейс вкладок';
+$txt['tabbed_interface_off'] = 'Выключить';
+$txt['tabbed_interface_smiley'] = 'Во вкладках только смайлы';
+$txt['tabbed_interface_fullon'] = 'Во вкладках все элементы';
+$txt['tabbed_smileys_two_lines'] = 'Вкладка смайлов в отдельном ряду';
+$txt['tabbed_subject_and_icons'] = 'Заголовок и иконки';
+$txt['tabbed_to_and_subject'] = 'Получатель и заголовок';
+$txt['tabbed_formatting'] = 'Форматирование';
+$txt['tabbed_attachments'] = 'Вложения';
+// $txt['tabbed_attached'] = $txt['attached']; //reminder
+$txt['tabbed_othersettings'] = 'Прочие настройки';
+//End tabbed smileys
+]]>
+         </add>
+      </operation>
+   </file>
+
+
 	<file name="$languagedir/Modifications.polish-utf8.php" error="skip">
 		<operation>
 			<search position="end" />
