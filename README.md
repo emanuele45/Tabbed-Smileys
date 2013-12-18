@@ -1,12 +1,12 @@
 Tabbed-Smileys
 ==============
 
-The mod adds a "tabbed interface" to the post form. The smileys are organized in "tabs": the first tab contains all the smileys configured to appear in the post form, the "additional tabs" are defined based on the number of rows of smileys present in the popup (one row = one tab). You can add new rows of smileys from the admin panel, in **set smiley order**.
+The mod adds a "tabbed interface" to the post form. The smileys are organized in "tabs": the first tab contains all the smileys configured to appear in the post form, the "additional tabs" are defined based on the number of rows of smileys present in the popup (one row = one tab). You can add new rows of smileys from the admin panel, in **set smiley order**.<br />
 With this mod it is possible to use all the available smileys without leave the posting browser window to reach the popup and keep low the number of smileys shown over the post form.
 
-If you want to help, feel free!
-The mod is now available at github:
-https://github.com/emanuele45/Tabbed-Smileys
+If you want to help, feel free!<br />
+The mod is now available at github:<br />
+https://github.com/emanuele45/Tabbed-Smileys<br />
 with a brand now BSD license attached to it! :P
 
 ---------------------------------------
