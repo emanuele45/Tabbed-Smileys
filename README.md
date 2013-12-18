@@ -10,24 +10,28 @@ https://github.com/emanuele45/Tabbed-Smileys<br />
 with a brand now BSD license attached to it! :P
 
 ---------------------------------------
-<span style="color: red">**NOTE:** version 0.3.99b is a BETA version!</span>
-In this version I added the possibility to move (almost) all the elements of the posting interface into "tabs". It means that the formatting buttons, the attachments, the "other settings" are all moved on top of the post area each in a separated tab.
-Once installed you will find a new drop down box in [i]admin > Forum > Posts and Topics > Post Settings[/i] with 3 options:
-[list type=decimal][li]Completely off (i.e. the classic SMF interface)[/li]
-[li]Only smileys in tabs (i.e. the usual behaviour of the mod, only the smiley are put in a tab-like interface)[/li]
-[li]All posting elements in tabs (i.e. the behaviour described just above)[/li][/list]
-Once selected the last option, a new checkbox will appear giving the possibility to chose to show the smileys' tabs in a separated row.
-[b]It [u]should[/u] work, but I didn't test it that much, so feel free to use it, but be ready to face problems. ;)[/b]
-That said: I wait your feedback: is it useful? Is it useless? Feel free to test it and report problems or suggestions to improve it!
-[u]The changes affect only SMF 2.0[/u], I won't bring them to SMF 1.1.x.
-[hr]
 
-[b]Important note for 1.1.x users[/b]
-To install the mod on SMF 1.1.15 and newer versions, please use the [url=http://custom.simplemachines.org/mods/index.php?mod=2113]Version Emulate[/url] mod.
+<span style="color: red">**NOTE:** version 0.3.99b is a BETA version!</span><br />
+In this version I added the possibility to move (almost) all the elements of the posting interface into "tabs". It means that the formatting buttons, the attachments, the "other settings" are all moved on top of the post area each in a separated tab.<br />
+Once installed you will find a new drop down box in *admin > Forum > Posts and Topics > Post Settings* with 3 options:
 
-[b]Configuration[/b]
-The number of tabs is defined by the number of rows of smileys in the popup: every row corresponds to a tab.
-[URL=http://img253.imageshack.us/i/newrow.png/][IMG]http://img253.imageshack.us/img253/9926/newrow.th.png[/img][/URL]
+* Completely off (i.e. the classic SMF interface)
+* Only smileys in tabs (i.e. the usual behaviour of the mod, only the smiley are put in a tab-like interface)
+*All posting elements in tabs (i.e. the behaviour described just above)
+
+Once selected the last option, a new checkbox will appear giving the possibility to chose to show the smileys' tabs in a separated row.<br />
+**It _should_ work, but I didn't test it that much, so feel free to use it, but be ready to face problems. ;)**<br />
+That said: I wait your feedback: is it useful? Is it useless? Feel free to test it and report problems or suggestions to improve it!<br />
+_The changes affect only SMF 2.0_, I won't bring them to SMF 1.1.x.
+
+---------------------------------------
+
+**Important note for 1.1.x users**
+To install the mod on SMF 1.1.15 and newer versions, please use the [Version Emulate](http://custom.simplemachines.org/mods/index.php?mod=2113) mod.
+
+**Configuration**
+The number of tabs is defined by the number of rows of smileys in the popup: every row corresponds to a tab.<br />
+[![new row](http://img253.imageshack.us/img253/9926/newrow.th.png)](http://img253.imageshack.us/i/newrow.png/)
 Doing like in the picture will create a third tab: the "basic" (with all the smileys in the post form), the first line of the popup (the :'( in the picture) and the newly added.
 It's possible to change the tab a smiley belongs to by changing the position both in "edit smileys" or in "set smiley order".
 It's also possible to define a custom name for each tab and change the css style directly in the admin panel, section "set smiley order".
