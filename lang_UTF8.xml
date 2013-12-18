@@ -12,11 +12,11 @@
  * @copyright 2011 emanuele, Simple Machines
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 0.3.99c
+ * @version 0.3.99e
  */
 --></license>
 	<name>Tabbed smileys</name>
-	<version>0.3.99c</version>
+	<version>0.3.99e</version>
 
 //Russian translation by Knivy, 2012.
 <file name="$languagedir/Modifications.russian-utf8.php" error="skip">
