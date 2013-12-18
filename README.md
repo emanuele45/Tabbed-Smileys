@@ -10,7 +10,7 @@ https://github.com/emanuele45/Tabbed-Smileys
 with a brand now BSD license attached to it! :P
 
 ---------------------------------------
-<span style="color: red"]**NOTE:** version 0.3.99b is a BETA version!</span>
+<span style="color: red">**NOTE:** version 0.3.99b is a BETA version!</span>
 In this version I added the possibility to move (almost) all the elements of the posting interface into "tabs". It means that the formatting buttons, the attachments, the "other settings" are all moved on top of the post area each in a separated tab.
 Once installed you will find a new drop down box in [i]admin > Forum > Posts and Topics > Post Settings[/i] with 3 options:
 [list type=decimal][li]Completely off (i.e. the classic SMF interface)[/li]
