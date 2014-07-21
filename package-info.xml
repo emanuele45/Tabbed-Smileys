@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
-
-<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+<!DOCTYPE package-info SYSTEM "http://www.elkarte.net/site/package-info">
+<package-info xmlns="http://www.elkarte.net/site/package-info" xmlns:elk="http://www.elkarte.net/">
 	<id>emanuele:tabbed_smileys</id>
 	<license><!--
 /**
@@ -9,24 +8,23 @@
  *
  * @package TSm
  * @author emanuele
- * @copyright 2011 emanuele, Simple Machines
- * @license http://www.simplemachines.org/about/smf/license.php BSD
+ * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 0.3.99e
+ * @version 0.1.0
  */
 --></license>
 	<name>Tabbed smileys</name>
-	<version>0.3.99e</version>
+	<version>0.1.0</version>
 	<type>modification</type>
-	<install for="2.0 - 2.0.99">
-		<modification>modification_SMF2.xml</modification>
-		<modification>lang.xml</modification>
-		<modification>lang_UTF8.xml</modification>
+	<install for="1.0 RC1 - 1.0.99">
+		<modification>modification.xml</modification>
+		<require-file name="tabbedSmiley.js" destination="THEMEDIR/scripts" />
+		<require-file name="tabbedSmiley.css" destination="THEMEDIR/css" />
 	</install>
-	<uninstall for="2.0 - 2.0.99">
-		<modification reverse="true">modification_SMF2.xml</modification>
-		<modification reverse="true">lang.xml</modification>
-		<modification reverse="true">lang_UTF8.xml</modification>
+	<uninstall for="1.0 - 1.0.99">
+		<modification reverse="true">modification.xml</modification>
+		<remove-file name="THEMEDIR/scripts/tabbedSmiley.js" />
+		<remove-file name="THEMEDIR/css/tabbedSmiley.js" />
 	</uninstall>
 </package-info>
 

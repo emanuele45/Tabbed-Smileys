@@ -1,0 +1,24 @@
+.sceditor-emot-head-tabs {
+	display: block;
+	float: left;
+	width: 100%;
+}
+.sceditor-emot-head-tabs li {
+	float: left;
+	padding: 0 5px;
+	margin-right: 2px;
+	cursor: pointer;
+	border: 1px solid #000;
+	border-bottom: 0;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+#editor_toolbar_container .hidden {
+	display: none;
+}
+
+#editor_toolbar_container .visible {
+	display: inline-block;
+	vertical-align: middle;
+}
