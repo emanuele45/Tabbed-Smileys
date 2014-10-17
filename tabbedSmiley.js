@@ -1,10 +1,11 @@
 /**
- * @name      ElkArte Forum
- * @copyright ElkArte Forum contributors
- * @license   BSD http://opensource.org/licenses/BSD-3-Clause
+ * Tabbed Smileys (TSm)
  *
- * @version 1.0 Release Candidate 2
- * Extension functions to provide ElkArte compatibility with sceditor
+ * @package TSm
+ * @author emanuele
+ * @license BSD http://opensource.org/licenses/BSD-3-Clause
+ *
+ * @version 0.1.1
  */
 
 (function($, window, document) {

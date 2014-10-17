@@ -22,3 +22,4 @@ It's also possible to define a custom name for each tab and change the css style
 ## Change log
 
 * 0.1.0 - Complete rewrite for ElkArte and SCEditor - added only basic features
+* 0.1.1 - Added support for ElkArte 1.0.1 (ElkArte 1.0 is no more supported)

@@ -10,21 +10,23 @@
  * @author emanuele
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 0.1.0
+ * @version 0.1.1
  */
 --></license>
 	<name>Tabbed smileys</name>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<type>modification</type>
-	<install for="1.0 RC1 - 1.0.99">
-		<modification>modification.xml</modification>
+	<install for="1.0.1 - 1.0.99">
 		<require-file name="tabbedSmiley.js" destination="THEMEDIR/scripts" />
 		<require-file name="tabbedSmiley.css" destination="THEMEDIR/css" />
+		<require-file name="tabbedSmiley.integration.php" destination="SOURCEDIR" />
+		<hook hook="integrate_editor_plugins" function="tabbedSmiley" file="SOURCEDIR/tabbedSmiley.integration.php" />
 	</install>
-	<uninstall for="1.0 - 1.0.99">
-		<modification reverse="true">modification.xml</modification>
+	<uninstall for="1.0.1 - 1.0.99">
 		<remove-file name="THEMEDIR/scripts/tabbedSmiley.js" />
 		<remove-file name="THEMEDIR/css/tabbedSmiley.js" />
+		<remove-file name="SOURCEDIR/tabbedSmiley.integration.php" />
+		<hook reverse="true" hook="integrate_editor_plugins" function="tabbedSmiley" file="SOURCEDIR/tabbedSmiley.integration.php" />
 	</uninstall>
 </package-info>
 
