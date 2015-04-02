@@ -24,7 +24,7 @@
 	</install>
 	<uninstall for="1.0.1 - 1.0.99">
 		<remove-file name="THEMEDIR/scripts/tabbedSmiley.js" />
-		<remove-file name="THEMEDIR/css/tabbedSmiley.js" />
+		<remove-file name="THEMEDIR/css/tabbedSmiley.css" />
 		<remove-file name="SOURCEDIR/tabbedSmiley.integration.php" />
 		<hook reverse="true" hook="integrate_editor_plugins" function="tabbedSmiley" file="SOURCEDIR/tabbedSmiley.integration.php" />
 	</uninstall>
