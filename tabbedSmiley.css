@@ -22,3 +22,9 @@
 	display: inline-block;
 	vertical-align: middle;
 }
+
+.sceditor-tabs-active {
+	background: #5ba048;
+	background-image: linear-gradient(0deg, #4b863c, #5ba048);
+	color: #fff;
+}

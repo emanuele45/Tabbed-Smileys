@@ -20,12 +20,14 @@
 		<require-file name="tabbedSmiley.js" destination="THEMEDIR/scripts" />
 		<require-file name="tabbedSmiley.css" destination="THEMEDIR/css" />
 		<require-file name="tabbedSmiley.integration.php" destination="SOURCEDIR" />
+		<require-file name="TabbedSmiley.english.php" destination="LANGUAGEDIR/english" />
 		<hook hook="integrate_editor_plugins" function="tabbedSmiley" file="SOURCEDIR/tabbedSmiley.integration.php" />
 	</install>
 	<uninstall for="1.0.1 - 1.0.99">
 		<remove-file name="THEMEDIR/scripts/tabbedSmiley.js" />
 		<remove-file name="THEMEDIR/css/tabbedSmiley.css" />
 		<remove-file name="SOURCEDIR/tabbedSmiley.integration.php" />
+		<remove-file name="LANGUAGEDIR/english/TabbedSmiley.english.php" />
 		<hook reverse="true" hook="integrate_editor_plugins" function="tabbedSmiley" file="SOURCEDIR/tabbedSmiley.integration.php" />
 	</uninstall>
 </package-info>

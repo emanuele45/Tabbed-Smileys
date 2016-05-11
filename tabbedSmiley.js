@@ -5,7 +5,7 @@
  * @author emanuele
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 (function($, window, document) {
@@ -15,37 +15,32 @@
 		/**
 		 * Create the button of a tab
 		 */
-		function createBtn(idx, target, text, cssclass, callback)
+		function createBtn(idx, target, text, cssclass)
 		{
 			tab_btns[idx] = $('<li id="' + idx + '" ' + (cssclass ? 'class="sceditor-tabs-' + cssclass + '"' : '') + ' />')
 				.data('target', target);
-			if (callback)
-				tab_btns[idx].click(function (e) {
-					e.preventDefault();
-					callback(e);
-				});
-			else
-				tab_btns[idx].click(function (e) {
-					var cur_id = $(this).attr('id');
-					e.preventDefault();
 
-					$.each(tabs, function(idx, val) {
-						$(tab_btns[idx]).removeClass('sceditor-tabs-active');
-						$(this).removeClass('visible').addClass('hidden');
+			tab_btns[idx].click(function (e) {
+				var cur_id = $(this).attr('id');
+				e.preventDefault();
 
-						if ($(this).attr('id') == cur_id + '-tab' && !tab_btns[idx].added)
-							$('#sceditor-smileycontainer').after(tabs[idx]);
-					});
+				$.each(tabs, function(idx, val) {
+					$(tab_btns[idx]).removeClass('sceditor-tabs-active');
+					$(this).removeClass('visible').addClass('hidden');
 
-					$(this).addClass('sceditor-tabs-active');
-					$('#' + $(this).data('target')).removeClass('hidden').addClass('visible').find('img').each(function () {
-						$(this).attr('src', $(this).attr('src-url'));
-					});
+					if ($(this).attr('id') == cur_id + '-tab' && !tab_btns[idx].added)
+						$('#sceditor-smileycontainer').after(tabs[idx]);
 				});
 
-				tab_btns[idx].text(base._(text));
+				$(this).addClass('sceditor-tabs-active');
+				$('#' + $(this).data('target')).removeClass('hidden').addClass('visible').find('img').each(function () {
+					$(this).attr('src', $(this).attr('src-url'));
+				});
+			});
 
-				return tab_btns[idx];
+			tab_btns[idx].text(base._(text));
+
+			return tab_btns[idx];
 		}
 
 		/**
@@ -112,16 +107,16 @@
 					$btn_tabs = $('<ul class="sceditor-emot-head-tabs" />');
 					$tabs = $('<ul class="sceditor-emot-tabs" />');
 
-					$btn_tabs.append(createBtn('sceditor-smileycontainer-top', 'sceditor-smileycontainer', 'Base', 'active'));
-					tabs['sceditor-smileycontainer'] = $('#sceditor-smileycontainer');
+					$btn_tabs.append(createBtn('sceditor-smileycontainer-top', 'sceditor-smileycontainer', TabbedSmileyLang.base, 'active'));
+					tabs['sceditor-smileycontainer-top'] = $('#sceditor-smileycontainer');
 
 					$.each(emots, function (idx, val) {
-						if (count == 0 || idx == '-0')
+						if (count == 0 || val == '')
 						{
 							// Prepare a new panel
 							tabs['sceditor-tabs-' + count] = $('<div id="sceditor-tabs-' + count + '-tab" class="hidden" />');
 							ccount = count;
-							$btn_tabs.append(createBtn('sceditor-tabs-' + count++, 'sceditor-tabs-' + ccount + '-tab', 'Tab ' + count));
+							$btn_tabs.append(createBtn('sceditor-tabs-' + count++, 'sceditor-tabs-' + ccount + '-tab', TabbedSmileyLang.tabs.replace('{%d}', parseInt(count))));
 						}
 
 						tabs['sceditor-tabs-' + ccount].append(buildEmoticon(idx, val));
@@ -136,7 +131,6 @@
 	/**
 	 * Mentioning plugin interface to SCEditor
 	 *  - Called from the editor as a plugin
-	 *  - Monitors events so we control the elk_mention
 	 */
 	$.sceditor.plugins.tabbedemotes = function() {
 		var base = this;
