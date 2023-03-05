@@ -3,12 +3,13 @@
 	float: left;
 	width: 100%;
 }
+
 .sceditor-emot-head-tabs li {
 	float: left;
 	padding: 0 5px;
 	margin-right: 2px;
 	cursor: pointer;
-	border: 1px solid #000;
+	border: 1px solid #000000;
 	border-bottom: 0;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
@@ -24,7 +25,15 @@
 }
 
 .sceditor-tabs-active {
-	background: #5ba048;
-	background-image: linear-gradient(0deg, #4b863c, #5ba048);
+	background: #5BA048 linear-gradient(0deg, #4B863C, #5BA048);
 	color: #fff;
 }
+
+/* Categorize your smileys by row in the admin panel (drag and drop)
+   then name your tabs using the following css, one for each row */
+
+/*
+.sceditor-emot-head-tabs > li:nth-child(2)::before {content: "Some Tab Name";}
+.sceditor-emot-head-tabs > li:nth-child(3)::before {content: "Another Tab Name";}
+...
+ */

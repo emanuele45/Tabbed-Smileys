@@ -13,7 +13,7 @@ https://github.com/emanuele45/Tabbed-Smileys
 
 The number of tabs is defined by the number of rows of smileys in the popup: every row corresponds to a tab.
 
-[![new row](http://img253.imageshack.us/img253/9926/newrow.th.png)](http://img253.imageshack.us/i/newrow.png/)
+[![new row](https://img253.imageshack.us/img253/9926/newrow.th.png)](https://img253.imageshack.us/i/newrow.png/)
 
 Doing like in the picture will create a third tab: the "basic" (with all the smileys in the post form), the first line of the popup (the :'( in the picture) and the newly added.<br />
 It's possible to change the tab a smiley belongs to by changing the position both in "edit smileys" or in "set smiley order".<br />
@@ -23,3 +23,4 @@ It's also possible to define a custom name for each tab and change the css style
 
 * 0.1.0 - Complete rewrite for ElkArte and SCEditor - added only basic features
 * 0.1.1 - Added support for ElkArte 1.0.1 (ElkArte 1.0 is no more supported)
+* 0.2.0 - Added support for ElkArte 1.1.x (ElkArte 1.0 is no more supported)
