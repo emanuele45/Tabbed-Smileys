@@ -12,7 +12,9 @@
 	'use strict';
 
 	let tabs = {},
-		tab_btns = {};
+		tab_btns = {},
+		editor,
+		$btn_tabs;
 
 	/**
 	 * Create the button of a tab
@@ -56,7 +58,7 @@
 			});
 		}
 
-		tab_btns[idx].text(base._(text));
+		tab_btns[idx].text(editor._(text));
 
 		return tab_btns[idx];
 	}
@@ -79,22 +81,22 @@
 			})
 			.on('click', function (e)
 			{
-				var start = '',
+				let start = '',
 					end = '';
 
-				if (base.opts.emoticonsCompat)
+				if (editor.opts.emoticonsCompat)
 				{
 					start = '<span> ';
 					end = ' </span>';
 				}
 
-				if (base.inSourceMode())
+				if (editor.inSourceMode())
 				{
-					base.sourceEditorInsertText(' ' + $(this).attr('alt') + ' ');
+					editor.sourceEditorInsertText(' ' + $(this).attr('alt') + ' ');
 				}
 				else
 				{
-					base.wysiwygEditorInsertHtml(start + '<img src="' + $(this).attr("src") + '" data-sceditor-emoticon="' + $(this).attr('alt') + '" />' + end);
+					editor.wysiwygEditorInsertHtml(start + '<img src="' + $(this).attr("src") + '" data-sceditor-emoticon="' + $(this).attr('alt') + '" />' + end);
 				}
 
 				e.preventDefault();
@@ -106,32 +108,28 @@
 	 */
 	function addTabbed()
 	{
-		let $btn_tabs = null,
-			popup_exists = base.opts.emoticons.hasOwnProperty('popup'),
-			$editor = $('#editor_toolbar_container'),
-			content = $('<div class="sceditor-insertemoticon button" />');
-
-		// For any smileys that go in the more popup
-		if (popup_exists)
+		// For any smileys that go in the popup
+		if (editor.opts.emoticons.hasOwnProperty('popup'))
 		{
-			let emots = $.extend({}, base.opts.emoticons.popup),
+			let emots = {},
 				tabName = '',
 				count = 0,
 				ccount = 0;
 
 			// On this we build our system
+			Object.assign(emots, editor.opts.emoticons.popup);
 			$btn_tabs = $('<ul class="sceditor-emot-head-tabs" />');
 
 			// Start with the Base tab
 			$btn_tabs.append(createBtn('sceditor-smileycontainer-top', 'sceditor-smileycontainer', TabbedSmileyLang.base, 'active'));
 			tabs['sceditor-smileycontainer'] = $('#sceditor-smileycontainer');
 
-			// Each row is a tab, starting with "base"
+			// Each row is a tab, starting with "base" which holds the smiles not in "more"
 			$.each(emots, function (idx, val) {
 				// Start of a smiley row, starts a new tab
 				if (count === 0 || idx === '-' + ccount)
 				{
-					// Prepare a new panel
+					// Prepare a new tab
 					tabs['sceditor-tabs-' + count] = $('<div id="sceditor-tabs-' + count + '-tab" class="hidden" />');
 					ccount = count;
 					tabName = TabbedSmileyLang.tabs.replace('{%d}', count + 1);
@@ -139,13 +137,40 @@
 					$btn_tabs.append(createBtn('sceditor-tabs-' + count++, 'sceditor-tabs-' + ccount + '-tab', tabName));
 				}
 
-				// A smiley, add it to the current tab
+				// Add the smiley to the current tab
 				tabs['sceditor-tabs-' + ccount].append(buildEmoticon(idx, val));
 			});
-
-			content.before($btn_tabs);
-			$editor.find('.sceditor-insertemoticon').before($btn_tabs);
 		}
+	}
+
+	/**
+	 * Waits for an element to appear in the DOM and then triggers
+	 *
+	 * @param {string} selector wait for this element to show up in DOM
+	 * @returns {Promise}
+	 */
+	function waitForElm(selector) {
+		return new Promise(resolve =>
+		{
+			if (document.querySelector(selector))
+			{
+				return resolve(document.querySelector(selector));
+			}
+
+			const observer = new MutationObserver(mutations =>
+			{
+				if (document.querySelector(selector))
+				{
+					resolve(document.querySelector(selector));
+					observer.disconnect();
+				}
+			});
+
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		});
 	}
 
 	/**
@@ -158,8 +183,21 @@
 		/**
 		 * Initialize, called when sceditor starts and initializes plugins
 		 */
-		base.signalReady = function() {
-			addTabbed();
+		base.init = function() {
+			editor = this;
+
+			// Create/Insert the tabs as soon as the DOM supports it (e.g. editor has created the smiley div)
+			// Could use base.signalReady but that is taking over 10seconds to fire
+			waitForElm('#sceditor-smileycontainer').then((elm) => {
+				// Build those beautiful tabs
+				addTabbed();
+
+				let $editor = $('#editor_toolbar_container'),
+					content = $('<div class="sceditor-insertemoticon button" />');
+
+				content.before($btn_tabs);
+				$editor.find('.sceditor-insertemoticon').before($btn_tabs);
+			})
 		};
 	};
 })(jQuery, window, document);
